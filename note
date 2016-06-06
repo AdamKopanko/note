@@ -1,0 +1,16 @@
+#!/bin/bash
+###############config##################
+DIR_FOR_NOTE="${HOME}/Dropbox/.notatki"
+EDITOR="${EDITOR:-vim}"
+DMENU="dmenu"
+TERMINAL="${TERMINAL:-termite}"
+##############main####################
+cd "${DIR_FOR_NOTE}"
+NOTE_FILE=`find .  -type f | grep -v '^\.$' | sed 's!\.\/!!' | ${DMENU}`
+if [ -f "${DIR_FOR_NOTE}/${NOTE_FILE}" ]; then
+   if type "tmux" > /dev/null; then
+      ${TERMINAL} -e "tmux new-session ${EDITOR} ${DIR_FOR_NOTE}/${NOTE_FILE}"
+   else
+      ${TERMINAL} -e "${EDITOR}  ${DIR_FOR_NOTE}/${NOTE_FILE}"
+   fi
+fi
